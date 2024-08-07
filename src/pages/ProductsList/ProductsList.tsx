@@ -4,7 +4,8 @@ import { ProductItem } from '../../components/ProductItem/ProductItem'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-import { Filter } from '../../components/filter/Filter'
+import { Filter } from '../../components/Filter/Filter'
+import { Search } from '../../components/Search/Search'
 
 const fetchProducts = async (): Promise<Product[]> => {
     const res = await fetch('http://localhost:3001/products')
@@ -49,13 +50,10 @@ export const Products = () => {
             <Typography variant="h3">Product list</Typography>
 
             <Stack direction="row" spacing={2} px={0.5}>
-                <TextField
-                    sx={{ width: 300 }}
-                    placeholder="Search..."
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
+                <Search
+                    searchText={searchText}
+                    onSearchTextChange={(value) => setSearchText(value)}
                 />
-
                 <Filter
                     categoryList={uniqueCategories}
                     selectedCategories={selectedCategories}
