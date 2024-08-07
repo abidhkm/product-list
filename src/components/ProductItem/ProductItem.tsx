@@ -13,6 +13,7 @@ export const ProductItem = (product: Product) => {
 
     return (
         <Stack
+            data-testid="product-item"
             px={4}
             py={2}
             spacing={1}

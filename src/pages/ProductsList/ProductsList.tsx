@@ -1,4 +1,4 @@
-import { CircularProgress, Stack, TextField, Typography } from '@mui/material'
+import { CircularProgress, Stack, Typography } from '@mui/material'
 import { Product } from '../../types'
 import { ProductItem } from '../../components/ProductItem/ProductItem'
 import Grid2 from '@mui/material/Unstable_Grid2'
@@ -64,7 +64,9 @@ export const Products = () => {
             </Stack>
 
             <Grid2 container spacing={1}>
-                {isLoading && <CircularProgress />}
+                {isLoading && (
+                    <CircularProgress data-testid="loading-spinner" />
+                )}
                 {products?.map((product) => (
                     <Grid2 key={product.id} lg={3} md={4} sm={6} xs={12}>
                         <ProductItem {...product} />

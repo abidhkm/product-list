@@ -43,10 +43,11 @@ export const Filter = ({
             <InputLabel id="category-filter">Filter</InputLabel>
             <Select
                 labelId="category-filter"
+                id="category-filter-demo"
                 multiple
                 value={selectedCategories}
                 onChange={handleChange}
-                input={<OutlinedInput label="Name" />}
+                input={<OutlinedInput label="Filter" />}
                 MenuProps={MenuProps}
             >
                 {categoryList.map((name) => (
