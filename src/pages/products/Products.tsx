@@ -1,28 +1,60 @@
-import { Stack, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
+import { CircularProgress, Stack, TextField, Typography } from "@mui/material"
 import { Product } from "../../types"
 import { ProductItem } from "../../components/ProductItem/ProductItem"
 import Grid2 from "@mui/material/Unstable_Grid2"
+import { useQuery } from "@tanstack/react-query"
+import { useMemo, useState } from "react"
+import { Filter } from "../../components/filter/Filter"
 
+
+const fetchProducts = async (): Promise<Product[]> => {
+    const res = await fetch('http://localhost:3001/products')
+    return await res.json()
+}
+
+const filterProducts = (products: Product[], nameSearchText: string, categoryFilterSelection: string[]) => {
+    const nameSearchResult = products?.filter(product => String(product.name.replaceAll(' ', '')).toLowerCase().includes(nameSearchText.replaceAll(' ','').toLowerCase()))
+    const categorySearchResult = nameSearchResult.filter(product => categoryFilterSelection.length ? categoryFilterSelection.includes(product.category) : true)
+    return categorySearchResult
+}
 
 
 export const Products = () => {
-    const [products, setProducts] = useState<Product[]>([])
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            const res = await fetch('http://localhost:3001/products')
-            setProducts(await res.json())
-        }
+    const [searchText, setSearchText] = useState('')
+    const [selectedCategories, setSelectedCategoryList] = useState<string[]>([])
+    const {data, isLoading} = useQuery({ queryKey: ['products'], queryFn: fetchProducts})
 
-        fetchProducts()
-    }, [])
+    const uniqueCategories = useMemo(() => Array.from(new Set(data?.map(item => item.category))), [data])
+    const products = filterProducts(data || [], searchText, selectedCategories)
+  
 
     return <Stack spacing={2}>
         <Typography variant="h3">Product list</Typography>
 
+        <Stack direction="row" spacing={2}>
+
+        <TextField 
+            sx={{ width: 300 }} 
+            placeholder="Search..." 
+            value={searchText} 
+            onChange={e => setSearchText(e.target.value)}
+         />
+
+        <Filter 
+            categoryList={uniqueCategories} 
+            selectedCategories={selectedCategories} 
+            onCategorySelectionChange={(updatedCategorySelection) => setSelectedCategoryList(updatedCategorySelection)} 
+        />
+
+
+
+        </Stack>
+
+
         <Grid2 container spacing={[1,1]}>
-            {products.map(product => <Grid2  
+            {isLoading && <CircularProgress />}
+            {products?.map(product => <Grid2  
             key={product.id} 
             lg={3} 
             md={4} 
