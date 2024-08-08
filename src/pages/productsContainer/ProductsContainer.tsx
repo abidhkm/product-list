@@ -10,7 +10,7 @@ import { Product } from '../../types'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo, useState } from 'react'
 import { Filter } from '../../components/filter/Filter'
-import { Search } from '../../components/search/Search'
+import { Search } from '../../components/searchField/Search'
 import { ProductList } from '../../components/productList/ProductList'
 import { filterProductsByNameAndCategory } from './filterProducts'
 
