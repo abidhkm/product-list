@@ -12,7 +12,7 @@ import { ProductItem } from '../../components/ProductItem/ProductItem'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-import { Filter } from '../../components/Filter/Filter'
+import { Filter } from '../../components/filterComponent/Filter'
 import { Search } from '../../components/Search/Search'
 
 const fetchProducts = async (): Promise<Product[]> => {
