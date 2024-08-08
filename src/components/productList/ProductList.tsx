@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Product } from '../../types'
-import { ProductItem } from '../productItem/ProductItem'
+import { ProductItem } from '../productItemCard/ProductItem'
 
 type ProductListProps = {
     isLoading: boolean
