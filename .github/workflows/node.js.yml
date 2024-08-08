@@ -22,6 +22,8 @@ jobs:
               run: npm run test
             - name: Build
               run: npm run build
+              env:
+                  REACT_APP_API_BASE_URL: https://json-server-two-mu.vercel.app
             - name: Deploy
               run: |
                   git config --global user.name $user_name
@@ -29,7 +31,6 @@ jobs:
                   git remote set-url origin https://${github_token}@github.com/${repository}
                   npm run deploy
               env:
-                  REACT_APP_API_BASE_URL: https://json-server-two-mu.vercel.app/
                   user_name: 'github-actions[bot]'
                   user_email: 'github-actions[bot]@users.noreply.github.com'
                   github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
