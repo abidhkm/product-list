@@ -16,7 +16,7 @@ import { Filter } from '../../components/filterComponent/Filter'
 import { Search } from '../../components/Search/Search'
 
 const fetchProducts = async (): Promise<Product[]> => {
-    const res = await fetch('http://localhost:3001/products')
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/products`)
     return await res.json()
 }
 
