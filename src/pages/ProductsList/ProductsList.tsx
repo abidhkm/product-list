@@ -6,7 +6,6 @@ import {
     Theme,
     Typography,
     useMediaQuery,
-    useTheme,
 } from '@mui/material'
 import { Product } from '../../types'
 import { ProductItem } from '../../components/ProductItem/ProductItem'
@@ -46,7 +45,7 @@ export const Products = () => {
         queryKey: ['products'],
         queryFn: fetchProducts,
     })
-    const theme = useTheme()
+
     const isLargeScreen = useMediaQuery<Theme>((theme) =>
         theme.breakpoints.up('md')
     )
