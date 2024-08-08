@@ -21,9 +21,7 @@ jobs:
             - name: Test
               run: npm run test
             - name: Build
-              run: npm run build
-              env:
-                  REACT_APP_API_BASE_URL: https://json-server-two-mu.vercel.app
+              run: REACT_APP_API_BASE_URL=https://json-server-two-mu.vercel.app npm run build
             - name: Deploy
               run: |
                   git config --global user.name $user_name
