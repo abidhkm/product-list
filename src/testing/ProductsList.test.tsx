@@ -28,7 +28,7 @@ describe('Product listing app', () => {
 
         const [productRow1] = productRows
         expect(within(productRow1).getByText('Test Product 1')).toBeTruthy()
-        expect(within(productRow1).getByText('Test Category A')).toBeTruthy()
+        expect(within(productRow1).getByText('Category A')).toBeTruthy()
         expect(within(productRow1).getByText('$10')).toBeTruthy()
     })
 
@@ -41,14 +41,14 @@ describe('Product listing app', () => {
         expect(productRows.length).toEqual(1)
         const [productRow1] = productRows
         expect(within(productRow1).getByText('Test Product 2')).toBeTruthy()
-        expect(within(productRow1).getByText('Test Category A')).toBeTruthy()
+        expect(within(productRow1).getByText('Category A')).toBeTruthy()
         expect(within(productRow1).getByText('$30')).toBeTruthy()
     })
 
-    test('renders 2 products when "Test Category A" is selected from filter', async () => {
+    test('renders 2 products when "Category A" is selected from filter', async () => {
         render(<App />)
         await screen.findAllByTestId('product-item')
-        applyCategoryFilter('Test Category A')
+        applyCategoryFilter('Category A')
 
         await waitFor(async () => {
             const productRows = await screen.findAllByTestId('product-item')
@@ -56,12 +56,12 @@ describe('Product listing app', () => {
         })
     })
 
-    test('renders only "Test product 3" when search text has value "3" and "Test Category B" is selected', async () => {
+    test('renders only "Test product 3" when search text has value "3" and "Category B" is selected', async () => {
         render(<App />)
         await screen.findAllByTestId('product-item')
 
         applySearchText('3')
-        applyCategoryFilter('Test Category B')
+        applyCategoryFilter('Category B')
 
         await waitFor(async () => {
             const productRows = await screen.findAllByTestId('product-item')

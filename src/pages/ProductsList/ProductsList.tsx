@@ -1,7 +1,16 @@
-import { CircularProgress, Stack, Typography } from '@mui/material'
+import {
+    Box,
+    Button,
+    CircularProgress,
+    Stack,
+    Theme,
+    Typography,
+    useMediaQuery,
+    useTheme,
+} from '@mui/material'
 import { Product } from '../../types'
 import { ProductItem } from '../../components/ProductItem/ProductItem'
-import Grid2 from '@mui/material/Unstable_Grid2'
+import Grid from '@mui/material/Unstable_Grid2'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
 import { Filter } from '../../components/Filter/Filter'
@@ -37,6 +46,10 @@ export const Products = () => {
         queryKey: ['products'],
         queryFn: fetchProducts,
     })
+    const theme = useTheme()
+    const isLargeScreen = useMediaQuery<Theme>((theme) =>
+        theme.breakpoints.up('md')
+    )
 
     const uniqueCategories = useMemo(
         () => Array.from(new Set(data?.map((item) => item.category))),
@@ -45,11 +58,20 @@ export const Products = () => {
 
     const products = filterProducts(data || [], searchText, selectedCategories)
 
+    const resetFiltersAndSearch = () => {
+        setSelectedCategoryList([])
+        setSearchText('')
+    }
+
     return (
         <Stack spacing={2}>
             <Typography variant="h3">Product list</Typography>
 
-            <Stack direction="row" spacing={2} px={0.5}>
+            <Stack
+                direction={{ xs: 'column', md: 'row' }}
+                justifyContent={'flex-start'}
+                spacing={[2, 2]}
+            >
                 <Search
                     searchText={searchText}
                     onSearchTextChange={(value) => setSearchText(value)}
@@ -61,25 +83,36 @@ export const Products = () => {
                         setSelectedCategoryList(updatedCategorySelection)
                     }
                 />
+
+                {isLargeScreen && (
+                    <Button onClick={resetFiltersAndSearch}>Clear</Button>
+                )}
             </Stack>
 
-            <Grid2 container spacing={1}>
-                {isLoading && (
-                    <CircularProgress data-testid="loading-spinner" />
-                )}
-                {products?.map((product) => (
-                    <Grid2 key={product.id} lg={3} md={4} sm={6} xs={12}>
-                        <ProductItem {...product} />
-                    </Grid2>
-                ))}
-            </Grid2>
+            <Box pt={4}>
+                <Grid container spacing={[4, 2]}>
+                    {isLoading && (
+                        <CircularProgress data-testid="loading-spinner" />
+                    )}
+                    {products?.map((product) => (
+                        <Grid key={product.id} lg={3} md={4} sm={6} xs={12}>
+                            <ProductItem {...product} />
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
 
-            <Stack
-                direction="row"
-                useFlexGap
-                flexWrap="wrap"
-                spacing={2}
-            ></Stack>
+            {!isLoading && !products.length && (
+                <Box
+                    p={4}
+                    height={300}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                >
+                    <Typography variant="h6">No products found</Typography>
+                </Box>
+            )}
         </Stack>
     )
 }

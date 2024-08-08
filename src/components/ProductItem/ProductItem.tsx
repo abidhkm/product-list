@@ -1,24 +1,23 @@
-import { Stack, Typography } from '@mui/material'
+import { Card, CardContent, Stack, Typography } from '@mui/material'
 import { Product } from '../../types'
 
 export const ProductItem = (product: Product) => {
     const showLabelAndValue = (label: string, value: string) => {
         return (
-            <Stack direction="row" spacing={1}>
-                <Typography fontWeight="bold">{label}:</Typography>
-                <Typography>{value}</Typography>
+            <Stack direction="row" spacing={1} alignItems="center">
+                <Typography variant="body1" color={'text.secondary'}>
+                    {label}:
+                </Typography>
+                <Typography variant="body2" color={'text.primary'}>
+                    {value}
+                </Typography>
             </Stack>
         )
     }
 
     return (
-        <Stack
+        <Card
             data-testid="product-item"
-            px={4}
-            py={2}
-            spacing={1}
-            border={'1px solid black'}
-            borderRadius={4}
             sx={{
                 cursor: 'pointer',
                 transition: 'transform 0.3s ease-in-out',
@@ -27,9 +26,18 @@ export const ProductItem = (product: Product) => {
                 },
             }}
         >
-            {showLabelAndValue('Name', product.name)}
-            {showLabelAndValue('Category', product.category)}
-            {showLabelAndValue('Price', `$${product.price}`)}
-        </Stack>
+            <CardContent
+                sx={{
+                    px: 4,
+                    py: 2,
+                }}
+            >
+                <Stack spacing={1}>
+                    {showLabelAndValue('Name', product.name)}
+                    {showLabelAndValue('Category', product.category)}
+                    {showLabelAndValue('Price', `$${product.price}`)}
+                </Stack>
+            </CardContent>
+        </Card>
     )
 }

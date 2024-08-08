@@ -9,19 +9,19 @@ export const MockRequestHandler = [
                 {
                     id: 1,
                     name: 'Test Product 1',
-                    category: 'Test Category A',
+                    category: 'Category A',
                     price: 10,
                 },
                 {
                     id: 2,
                     name: 'Test Product 2',
-                    category: 'Test Category A',
+                    category: 'Category A',
                     price: 30,
                 },
                 {
                     id: 33,
                     name: 'Test Product 3',
-                    category: 'Test Category B',
+                    category: 'Category B',
                     price: 90.99,
                 },
             ])

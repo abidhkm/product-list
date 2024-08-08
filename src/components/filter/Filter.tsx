@@ -39,7 +39,9 @@ export const Filter = ({
     }
 
     return (
-        <FormControl sx={{ m: 1, width: 300 }}>
+        <FormControl
+            sx={{ m: 1, minWidth: 200, width: { xs: 'unset', lg: 300 } }}
+        >
             <InputLabel id="category-filter">Filter</InputLabel>
             <Select
                 labelId="category-filter"
