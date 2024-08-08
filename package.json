@@ -16,6 +16,7 @@
         "@types/node": "^16.18.104",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
+        "gh-pages": "^6.1.1",
         "json-server": "^1.0.0-beta.1",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
@@ -31,8 +32,11 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "start:server": "json-server mock/db.json --port 3001",
-        "fix:format": "prettier --write ."
+        "fix:format": "prettier --write .",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
     },
+    "homepage": "https://abidhkm.github.io/product-list",
     "eslintConfig": {
         "extends": [
             "react-app",
