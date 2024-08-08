@@ -1,5 +1,5 @@
 import { Container, CssBaseline, ThemeProvider } from '@mui/material'
-import { Products } from './pages/ProductsList/ProductsList'
+import { Products } from './pages/productsList/ProductsList'
 import { Fragment } from 'react/jsx-runtime'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { theme } from './theme'

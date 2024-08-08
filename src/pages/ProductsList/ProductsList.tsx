@@ -8,12 +8,12 @@ import {
     useMediaQuery,
 } from '@mui/material'
 import { Product } from '../../types'
-import { ProductItem } from '../../components/ProductItem/ProductItem'
+import { ProductItem } from '../../components/productItem/ProductItem'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-import { Filter } from '../../components/filterComponent/Filter'
-import { Search } from '../../components/Search/Search'
+import { Filter } from '../../components/filter/Filter'
+import { Search } from '../../components/search/Search'
 
 const fetchProducts = async (): Promise<Product[]> => {
     const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/products`)
