@@ -6,16 +6,7 @@ import {
     MenuItem,
     SelectChangeEvent,
 } from '@mui/material'
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-}
+import { memo } from 'react'
 
 type FilterProps = {
     selectedCategories: string[]
@@ -23,41 +14,46 @@ type FilterProps = {
     onCategorySelectionChange: (value: string[]) => void
 }
 
-export const Filter = ({
-    selectedCategories,
-    categoryList,
-    onCategorySelectionChange,
-}: FilterProps) => {
-    const handleChange = (event: SelectChangeEvent<typeof categoryList>) => {
-        const {
-            target: { value },
-        } = event
-        onCategorySelectionChange(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value
+export const Filter = memo(
+    ({
+        selectedCategories,
+        categoryList,
+        onCategorySelectionChange,
+    }: FilterProps) => {
+        const handleChange = (
+            event: SelectChangeEvent<typeof categoryList>
+        ) => {
+            const {
+                target: { value },
+            } = event
+            onCategorySelectionChange(
+                // On autofill we get a stringified value.
+                typeof value === 'string' ? value.split(',') : value
+            )
+        }
+
+        return (
+            <FormControl
+                sx={{ m: 1, minWidth: 200, width: { xs: 'unset', lg: 300 } }}
+            >
+                <InputLabel id="category-filter">Filter</InputLabel>
+                <Select
+                    labelId="category-filter"
+                    id="category-filter-demo"
+                    multiple
+                    value={selectedCategories}
+                    onChange={handleChange}
+                    input={<OutlinedInput label="Filter" />}
+                >
+                    {categoryList.map((name) => (
+                        <MenuItem key={name} value={name}>
+                            {name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
         )
     }
+)
 
-    return (
-        <FormControl
-            sx={{ m: 1, minWidth: 200, width: { xs: 'unset', lg: 300 } }}
-        >
-            <InputLabel id="category-filter">Filter</InputLabel>
-            <Select
-                labelId="category-filter"
-                id="category-filter-demo"
-                multiple
-                value={selectedCategories}
-                onChange={handleChange}
-                input={<OutlinedInput label="Filter" />}
-                MenuProps={MenuProps}
-            >
-                {categoryList.map((name) => (
-                    <MenuItem key={name} value={name}>
-                        {name}
-                    </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
-    )
-}
+Filter.displayName = 'Filter'

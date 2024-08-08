@@ -1,44 +1,25 @@
 import {
     Box,
     Button,
-    CircularProgress,
     Stack,
     Theme,
     Typography,
     useMediaQuery,
 } from '@mui/material'
 import { Product } from '../../types'
-import { ProductItem } from '../../components/productItem/ProductItem'
-import Grid from '@mui/material/Unstable_Grid2'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Filter } from '../../components/filter/Filter'
 import { Search } from '../../components/search/Search'
+import { ProductList } from '../../components/productList/ProductList'
+import { filterProductsByNameAndCategory } from './filterProducts'
 
 const fetchProducts = async (): Promise<Product[]> => {
     const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/products`)
     return await res.json()
 }
 
-const filterProducts = (
-    products: Product[],
-    nameSearchText: string,
-    categoryFilterSelection: string[]
-) => {
-    const nameSearchResult = products?.filter((product) =>
-        String(product.name.replaceAll(' ', ''))
-            .toLowerCase()
-            .includes(nameSearchText.replaceAll(' ', '').toLowerCase())
-    )
-    const categorySearchResult = nameSearchResult.filter((product) =>
-        categoryFilterSelection.length
-            ? categoryFilterSelection.includes(product.category)
-            : true
-    )
-    return categorySearchResult
-}
-
-export const Products = () => {
+export const ProductsContainer = () => {
     const [searchText, setSearchText] = useState('')
     const [selectedCategories, setSelectedCategoryList] = useState<string[]>([])
     const { data, isLoading } = useQuery({
@@ -55,7 +36,21 @@ export const Products = () => {
         [data]
     )
 
-    const products = filterProducts(data || [], searchText, selectedCategories)
+    const products = useMemo(
+        () =>
+            filterProductsByNameAndCategory(
+                data || [],
+                searchText,
+                selectedCategories
+            ),
+        [data, searchText, selectedCategories]
+    )
+
+    const onCategorySelectionChange = useCallback(
+        (updatedCategorySelection: string[]) =>
+            setSelectedCategoryList(updatedCategorySelection),
+        []
+    )
 
     const resetFiltersAndSearch = () => {
         setSelectedCategoryList([])
@@ -78,9 +73,7 @@ export const Products = () => {
                 <Filter
                     categoryList={uniqueCategories}
                     selectedCategories={selectedCategories}
-                    onCategorySelectionChange={(updatedCategorySelection) =>
-                        setSelectedCategoryList(updatedCategorySelection)
-                    }
+                    onCategorySelectionChange={onCategorySelectionChange}
                 />
 
                 {isLargeScreen && (
@@ -89,29 +82,8 @@ export const Products = () => {
             </Stack>
 
             <Box pt={4}>
-                <Grid container spacing={[4, 2]}>
-                    {isLoading && (
-                        <CircularProgress data-testid="loading-spinner" />
-                    )}
-                    {products?.map((product) => (
-                        <Grid key={product.id} lg={3} md={4} sm={6} xs={12}>
-                            <ProductItem {...product} />
-                        </Grid>
-                    ))}
-                </Grid>
+                <ProductList isLoading={isLoading} products={products} />
             </Box>
-
-            {!isLoading && !products.length && (
-                <Box
-                    p={4}
-                    height={300}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <Typography variant="h6">No products found</Typography>
-                </Box>
-            )}
         </Stack>
     )
 }

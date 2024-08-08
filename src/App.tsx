@@ -1,5 +1,5 @@
 import { Container, CssBaseline, ThemeProvider } from '@mui/material'
-import { Products } from './pages/productsList/ProductsList'
+import { ProductsContainer } from './pages/productsContainer/ProductsContainer'
 import { Fragment } from 'react/jsx-runtime'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { theme } from './theme'
@@ -13,7 +13,7 @@ function App() {
                 <QueryClientProvider client={queryClient}>
                     <CssBaseline />
                     <Container sx={{ padding: 4 }} maxWidth="lg">
-                        <Products />
+                        <ProductsContainer />
                     </Container>
                 </QueryClientProvider>
             </ThemeProvider>

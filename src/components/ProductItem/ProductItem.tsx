@@ -1,7 +1,8 @@
 import { Card, CardContent, Stack, Typography } from '@mui/material'
 import { Product } from '../../types'
+import { memo } from 'react'
 
-export const ProductItem = (product: Product) => {
+export const ProductItem = memo((product: Product) => {
     const showLabelAndValue = (label: string, value: string) => {
         return (
             <Stack direction="row" spacing={1} alignItems="center">
@@ -40,4 +41,6 @@ export const ProductItem = (product: Product) => {
             </CardContent>
         </Card>
     )
-}
+})
+
+ProductItem.displayName = 'ProductItem'
