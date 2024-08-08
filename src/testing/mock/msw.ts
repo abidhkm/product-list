@@ -3,7 +3,7 @@ import { rest } from 'msw/'
 
 export const MockRequestHandler = [
     rest.get(
-        `https://json-server-two-mu.vercel.app/products`,
+        `${process.env.REACT_APP_API_BASE_URL}/products`,
         (req, res, ctx) => {
             return res(
                 ctx.status(200),
