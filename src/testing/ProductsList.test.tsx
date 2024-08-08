@@ -24,15 +24,15 @@ describe('Product listing app', () => {
     test('3 products are rendered. Name, category and price are shown', async () => {
         render(<App />)
         const productRows = await screen.findAllByTestId('product-item')
-        expect(productRows.length).toEqual(7)
+        expect(productRows.length).toEqual(3)
 
         const [productRow1] = productRows
-        expect(within(productRow1).getByText('Product 1')).toBeTruthy()
-        expect(within(productRow1).getByText('Category A')).toBeTruthy()
-        expect(within(productRow1).getByText('$29.99')).toBeTruthy()
+        expect(within(productRow1).getByText('Test Product 1')).toBeTruthy()
+        expect(within(productRow1).getByText('Test Category A')).toBeTruthy()
+        expect(within(productRow1).getByText('$10')).toBeTruthy()
     })
 
-    test('renders only product 2 when search text entered is 2', async () => {
+    test('renders only "Test Product 2" when search text entered is "2"', async () => {
         render(<App />)
         await screen.findAllByTestId('product-item')
 
@@ -40,28 +40,28 @@ describe('Product listing app', () => {
         const productRows = await screen.findAllByTestId('product-item')
         expect(productRows.length).toEqual(1)
         const [productRow1] = productRows
-        expect(within(productRow1).getByText('Product 2')).toBeTruthy()
-        expect(within(productRow1).getByText('Category A')).toBeTruthy()
-        expect(within(productRow1).getByText('$49.99')).toBeTruthy()
+        expect(within(productRow1).getByText('Test Product 2')).toBeTruthy()
+        expect(within(productRow1).getByText('Test Category A')).toBeTruthy()
+        expect(within(productRow1).getByText('$30')).toBeTruthy()
     })
 
-    test('renders 4 products when category A is selected from filter', async () => {
+    test('renders 2 products when "Test Category A" is selected from filter', async () => {
         render(<App />)
         await screen.findAllByTestId('product-item')
-        applyCategoryFilter('Category A')
+        applyCategoryFilter('Test Category A')
 
         await waitFor(async () => {
             const productRows = await screen.findAllByTestId('product-item')
-            expect(productRows.length).toEqual(4)
+            expect(productRows.length).toEqual(2)
         })
     })
 
-    test('renders only product 6 when search text has value 6 and category B is selected', async () => {
+    test('renders only "Test product 3" when search text has value "3" and "Test Category B" is selected', async () => {
         render(<App />)
         await screen.findAllByTestId('product-item')
 
-        applySearchText('6')
-        applyCategoryFilter('Category B')
+        applySearchText('3')
+        applyCategoryFilter('Test Category B')
 
         await waitFor(async () => {
             const productRows = await screen.findAllByTestId('product-item')
